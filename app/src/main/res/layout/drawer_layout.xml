@@ -7,4 +7,5 @@
     android:layout_gravity="start"
     android:background="?android:attr/windowBackground"
     android:orientation="vertical"
+    app:itemIconTint="@color/defaultIconTint"
     app:headerLayout="@layout/drawer_header" />

@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         }
         String lastAnnouncementId = prefs.getString("last_announcement_id", null);
         try {
-            NewPipe.getDownloader().getAsync("https://github.com/InfinityLoop1308/PipePipe/wiki/Announcement", resp -> {
+            NewPipe.getDownloader().getAsync("https://github.com/ximalu/PipePlay/wiki/Announcement", resp -> {
                 AnnouncementParser.ParsedResult result = parseContentsBeforeId(resp.responseBody(), lastAnnouncementId);
                 if(result.latestId != null) {
                     Handler handler = new Handler(Looper.getMainLooper());
