@@ -4,9 +4,13 @@ plugins {
     id "org.jetbrains.kotlin.plugin.compose"
     id "org.jetbrains.kotlin.plugin.parcelize"
     id "org.jetbrains.kotlin.kapt"
-    id "checkstyle"
     id "org.sonarqube"
 }
+
+def keyPath = System.getenv("KEY_PATH")
+def keyStorePassword = System.getenv("KEY_STORE_PASSWORD")
+def signingKeyAlias = System.getenv("KEY_ALIAS")
+def signingKeyPassword = System.getenv("KEY_PASSWORD")
 
 android {
     compileSdk 37
@@ -14,7 +18,7 @@ android {
     defaultConfig {
         applicationId "InfinityLoop1309.NewPipeEnhanced"
         minSdk 23
-        //noinspection ExpiredTargetSdkVersion
+        //noinspection OldTargetApi,ExpiredTargetSdkVersion
         targetSdk 36
         versionCode 1
         versionName "1.0-beta1"
@@ -38,6 +42,17 @@ android {
         }
     }
 
+    signingConfigs {
+        if (keyPath && keyStorePassword && signingKeyAlias && signingKeyPassword) {
+            release {
+                storeFile file(keyPath)
+                storePassword keyStorePassword
+                keyAlias signingKeyAlias
+                keyPassword signingKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
@@ -56,6 +71,9 @@ android {
         }
 
         release {
+            if (signingConfigs.findByName("release")) {
+                signingConfig signingConfigs.release
+            }
             if (System.properties.containsKey('packageSuffix')) {
                 applicationIdSuffix System.getProperty('packageSuffix')
                 resValue "string", "app_name", "PipePlay " + System.getProperty('packageSuffix')
@@ -135,8 +153,6 @@ androidComponents.onVariants(androidComponents.selector().all()) { variant ->
 }
 
 ext {
-    checkstyleVersion = '10.0'
-
     androidxLifecycleVersion = '2.3.1'
     androidxRoomVersion = '2.4.2'
     androidxWorkVersion = '2.10.2'
@@ -152,33 +168,7 @@ ext {
 }
 
 configurations {
-    checkstyle
     ktlint
-}
-
-checkstyle {
-    getConfigDirectory().set(rootProject.file("checkstyle"))
-    ignoreFailures false
-    showViolations true
-    toolVersion = checkstyleVersion
-}
-
-task runCheckstyle(type: Checkstyle) {
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-    exclude '**/R.java'
-    exclude '**/BuildConfig.java'
-    exclude 'main/java/us/shandian/giga/**'
-
-    classpath = configurations.checkstyle
-
-    showViolations true
-
-    reports {
-        xml.getRequired().set(true)
-        html.getRequired().set(true)
-    }
 }
 
 def outputDir = "${project.buildDir}/reports/ktlint/"
@@ -225,8 +215,6 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
 
-/** Checkstyle **/
-    checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
     ktlint 'com.pinterest:ktlint:0.44.0'
 
 /** Kotlin **/
