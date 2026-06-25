@@ -77,18 +77,20 @@ public class VideoAudioSettingsFragment extends BasePreferenceFragment {
                 return false;
             }
 
-            // Check max constraint: min + 30 <= max (max caps at 600)
+            // Auto-adjust max if gap would be < 30
             final int currentMax = Integer.parseInt(defaultPreferences.getString(
                     getString(R.string.buffer_max_key),
                     getString(R.string.buffer_max_default_value)));
             if (value + 30 > currentMax) {
-                showBufferValidationError(
-                        getString(R.string.buffer_min_plus_30_error,
-                                value + 30));
-                return false;
+                final int newMax = Math.min(value + 30, 600);
+                bufferMaxPref.setText(String.valueOf(newMax));
+                defaultPreferences.edit()
+                        .putString(getString(R.string.buffer_max_key), String.valueOf(newMax))
+                        .apply();
             }
 
             lastValidMin = strValue;
+            updateBufferSummaries();
             return true;
         } catch (final NumberFormatException e) {
             showBufferValidationError(getString(R.string.buffer_invalid_number));
@@ -109,17 +111,28 @@ public class VideoAudioSettingsFragment extends BasePreferenceFragment {
                 return false;
             }
 
+            // Auto-adjust min if gap would be < 30
             final int currentMin = Integer.parseInt(defaultPreferences.getString(
                     getString(R.string.buffer_min_key),
                     getString(R.string.buffer_min_default_value)));
             if (value < currentMin + 30) {
-                showBufferValidationError(
-                        getString(R.string.buffer_max_min_plus_30_error,
-                                currentMin + 30));
-                return false;
+                final int newMin = Math.max(value - 30, 20);
+                // If even at min=20 the gap is still < 30, reject
+                if (value < 20 + 30) {
+                    showBufferValidationError(
+                            getString(R.string.buffer_max_title) + ": "
+                                    + value + " " + getString(R.string.buffer_range_error,
+                                    50, 600));
+                    return false;
+                }
+                bufferMinPref.setText(String.valueOf(newMin));
+                defaultPreferences.edit()
+                        .putString(getString(R.string.buffer_min_key), String.valueOf(newMin))
+                        .apply();
             }
 
             lastValidMax = strValue;
+            updateBufferSummaries();
             return true;
         } catch (final NumberFormatException e) {
             showBufferValidationError(getString(R.string.buffer_invalid_number));
