@@ -1,11 +1,13 @@
 package org.schabi.newpipe.settings.tabs;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonStringWriter;
@@ -28,6 +30,8 @@ import org.schabi.newpipe.local.feed.FeedFragment;
 import org.schabi.newpipe.local.history.StatisticsPlaylistFragment;
 import org.schabi.newpipe.local.playlist.LocalPlaylistFragment;
 import org.schabi.newpipe.local.subscription.SubscriptionFragment;
+import org.schabi.newpipe.local.feed.FeedFragment;
+import org.schabi.newpipe.database.feed.model.FeedGroupEntity;
 import org.schabi.newpipe.local.subscription.item.FeedGroupCardItem;
 import org.schabi.newpipe.util.KioskTranslator;
 import org.schabi.newpipe.util.ServiceHelper;
@@ -228,7 +232,13 @@ public abstract class Tab {
         }
 
         @Override
-        public SubscriptionFragment getFragment(final Context context) {
+        public Fragment getFragment(final Context context) {
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            final String displayMode = prefs.getString(
+                    context.getString(R.string.subscription_display_mode_key), "channel_groups");
+            if ("feed_content".equals(displayMode)) {
+                return FeedFragment.newInstance(FeedGroupEntity.GROUP_ALL_ID, null);
+            }
             return new SubscriptionFragment();
         }
 

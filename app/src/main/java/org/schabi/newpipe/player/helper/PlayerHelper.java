@@ -19,6 +19,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.provider.Settings;
@@ -392,8 +394,40 @@ public final class PlayerHelper {
         return isUsingInexactSeek(context) ? SeekParameters.CLOSEST_SYNC : SeekParameters.EXACT;
     }
 
-    public static long getPreferredCacheSize() {
-        return 64 * 1024 * 1024L;
+    public static long getPreferredCacheSize(@NonNull final Context context) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final String cacheSizeStr = prefs.getString(
+                context.getString(R.string.player_cache_size_key),
+                context.getString(R.string.player_cache_size_default_value));
+        try {
+            return Long.parseLong(cacheSizeStr);
+        } catch (final NumberFormatException e) {
+            return 268435456L; // 256 MB fallback
+        }
+    }
+
+    public static int getBufferMinMs(@NonNull final Context context) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final String val = prefs.getString(
+                context.getString(R.string.buffer_min_key),
+                context.getString(R.string.buffer_min_default_value));
+        try {
+            return Integer.parseInt(val) * 1000;
+        } catch (final NumberFormatException e) {
+            return 20000; // 20 seconds fallback
+        }
+    }
+
+    public static int getBufferMaxMs(@NonNull final Context context) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final String val = prefs.getString(
+                context.getString(R.string.buffer_max_key),
+                context.getString(R.string.buffer_max_default_value));
+        try {
+            return Integer.parseInt(val) * 1000;
+        } catch (final NumberFormatException e) {
+            return 50000; // 50 seconds fallback
+        }
     }
 
     public static long getPreferredFileSize() {

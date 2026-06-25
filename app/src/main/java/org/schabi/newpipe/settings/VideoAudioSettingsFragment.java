@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -18,11 +20,28 @@ import org.schabi.newpipe.util.PermissionHelper;
 
 public class VideoAudioSettingsFragment extends BasePreferenceFragment {
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private EditTextPreference bufferMinPref;
+    private EditTextPreference bufferMaxPref;
+    private String lastValidMin;
+    private String lastValidMax;
 
     @Override
     public void onCreatePreferences(@Nullable final Bundle savedInstanceState,
                                     @Nullable final String rootKey) {
         addPreferencesFromResourceRegistry();
+
+        bufferMinPref = (EditTextPreference) requirePreference(R.string.buffer_min_key);
+        bufferMaxPref = (EditTextPreference) requirePreference(R.string.buffer_max_key);
+
+        lastValidMin = defaultPreferences.getString(
+                getString(R.string.buffer_min_key),
+                getString(R.string.buffer_min_default_value));
+        lastValidMax = defaultPreferences.getString(
+                getString(R.string.buffer_max_key),
+                getString(R.string.buffer_max_default_value));
+
+        bufferMinPref.setOnPreferenceChangeListener(this::validateBufferMin);
+        bufferMaxPref.setOnPreferenceChangeListener(this::validateBufferMax);
 
         listener = (sharedPreferences, s) -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
@@ -41,6 +60,90 @@ public class VideoAudioSettingsFragment extends BasePreferenceFragment {
                 }
             }
         };
+
+        updateBufferSummaries();
+    }
+
+    private boolean validateBufferMin(@NonNull final Preference preference,
+                                      @NonNull final Object newValue) {
+        final String strValue = newValue.toString().trim();
+        try {
+            final int value = Integer.parseInt(strValue);
+            if (value < 20 || value > 570) {
+                showBufferValidationError(
+                        getString(R.string.buffer_min_title) + ": "
+                                + value + " " + getString(R.string.buffer_range_error,
+                                20, 570));
+                return false;
+            }
+
+            // Check max constraint: min + 30 <= max (max caps at 600)
+            final int currentMax = Integer.parseInt(defaultPreferences.getString(
+                    getString(R.string.buffer_max_key),
+                    getString(R.string.buffer_max_default_value)));
+            if (value + 30 > currentMax) {
+                showBufferValidationError(
+                        getString(R.string.buffer_min_plus_30_error,
+                                value + 30));
+                return false;
+            }
+
+            lastValidMin = strValue;
+            return true;
+        } catch (final NumberFormatException e) {
+            showBufferValidationError(getString(R.string.buffer_invalid_number));
+            return false;
+        }
+    }
+
+    private boolean validateBufferMax(@NonNull final Preference preference,
+                                      @NonNull final Object newValue) {
+        final String strValue = newValue.toString().trim();
+        try {
+            final int value = Integer.parseInt(strValue);
+            if (value > 600) {
+                showBufferValidationError(
+                        getString(R.string.buffer_max_title) + ": "
+                                + value + " " + getString(R.string.buffer_range_error,
+                                0, 600));
+                return false;
+            }
+
+            final int currentMin = Integer.parseInt(defaultPreferences.getString(
+                    getString(R.string.buffer_min_key),
+                    getString(R.string.buffer_min_default_value)));
+            if (value < currentMin + 30) {
+                showBufferValidationError(
+                        getString(R.string.buffer_max_min_plus_30_error,
+                                currentMin + 30));
+                return false;
+            }
+
+            lastValidMax = strValue;
+            return true;
+        } catch (final NumberFormatException e) {
+            showBufferValidationError(getString(R.string.buffer_invalid_number));
+            return false;
+        }
+    }
+
+    private void showBufferValidationError(final String message) {
+        if (getView() != null) {
+            Snackbar.make(getListView(), message, Snackbar.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void updateBufferSummaries() {
+        if (bufferMinPref != null) {
+            bufferMinPref.setSummary(getString(R.string.buffer_min_summary)
+                    + " (" + lastValidMin + " " + getString(R.string.seconds) + ")");
+        }
+        if (bufferMaxPref != null) {
+            bufferMaxPref.setSummary(getString(R.string.buffer_max_summary)
+                    + " (" + lastValidMax + " " + getString(R.string.seconds) + ")");
+        }
     }
 
     @Override

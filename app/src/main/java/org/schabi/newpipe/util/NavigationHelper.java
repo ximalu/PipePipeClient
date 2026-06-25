@@ -5,6 +5,7 @@ import static org.schabi.newpipe.util.external_communication.ShareUtils.installA
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
@@ -488,6 +490,18 @@ public final class NavigationHelper {
                 .replace(R.id.fragment_holder, new SubscriptionFragment())
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public static void openFeedOrSubscriptionFragment(final FragmentManager fragmentManager,
+                                                       final Context context) {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final String displayMode = prefs.getString(
+                context.getString(R.string.subscription_display_mode_key), "channel_groups");
+        if ("feed_content".equals(displayMode)) {
+            openFeedFragment(fragmentManager);
+        } else {
+            openSubscriptionFragment(fragmentManager);
+        }
     }
 
     public static void openKioskFragment(final FragmentManager fragmentManager, final int serviceId,

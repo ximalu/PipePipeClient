@@ -444,7 +444,9 @@ public final class Player implements
         trackSelector = createTrackSelector();
         dataSource = new PlayerDataSource(context, DownloaderImpl.USER_AGENT,
                 new DefaultBandwidthMeter.Builder(context).build());
-        loadController = new LoadController();
+        loadController = new LoadController(
+                PlayerHelper.getBufferMinMs(context),
+                PlayerHelper.getBufferMaxMs(context));
 
         renderFactory = prefs.getBoolean(
                 context.getString(
@@ -543,11 +545,13 @@ public final class Player implements
         }
 
         trackSelector = createTrackSelector();
-        loadController = new LoadController();
+        loadController = new LoadController(
+                PlayerHelper.getBufferMinMs(context),
+                PlayerHelper.getBufferMaxMs(context));
 
         simpleExoPlayer = new ExoPlayer.Builder(context, renderFactory)
                 .setTrackSelector(trackSelector)
-                .setLoadControl(loadController)
+                .setLoadControl(loadController.getLoadControl())
                 .build();
         simpleExoPlayer.addListener(this);
         simpleExoPlayer.setPlayWhenReady(playOnReady);

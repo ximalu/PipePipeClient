@@ -23,6 +23,32 @@
         app:singleLineTitle="false"
         app:iconSpaceReserved="false" />
 
+    <PreferenceCategory
+        android:layout="@layout/settings_category_header_layout"
+        android:title="@string/buffer_min_title"
+        app:singleLineTitle="false"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:defaultValue="@string/buffer_min_default_value"
+            android:inputType="number"
+            android:key="@string/buffer_min_key"
+            android:summary="@string/buffer_min_summary"
+            android:title="@string/buffer_min_title"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="@string/buffer_max_default_value"
+            android:inputType="number"
+            android:key="@string/buffer_max_key"
+            android:summary="@string/buffer_max_summary"
+            android:title="@string/buffer_max_title"
+            app:singleLineTitle="false"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
     <MultiSelectListPreference
             android:key="@string/advanced_formats_key"
             android:title="@string/advanced_formats_title"

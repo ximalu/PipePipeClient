@@ -77,7 +77,7 @@ import java.lang.reflect.Method;
 
         if (cache == null) {
             final LeastRecentlyUsedCacheEvictor evictor
-                    = new LeastRecentlyUsedCacheEvictor(PlayerHelper.getPreferredCacheSize());
+                    = new LeastRecentlyUsedCacheEvictor(PlayerHelper.getPreferredCacheSize(context));
             try {
                 cache = new SimpleCache(cacheDir, evictor, new StandaloneDatabaseProvider(context));
                 Log.d(TAG, "initExoPlayerCache: cacheDir = " + cacheDir.getAbsolutePath());

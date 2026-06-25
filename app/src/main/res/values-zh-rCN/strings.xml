@@ -83,6 +83,17 @@
 <string name="metadata_cache_wipe_title">清除缓存元数据</string>
 <string name="metadata_cache_wipe_summary">清除缓存网页数据</string>
 <string name="metadata_cache_wipe_complete_notice">元数据缓存已清除</string>
+<string name="player_cache_size_title">视频缓存大小</string>
+<string name="player_cache_size_summary">视频内容缓存最大可用空间（需重启应用生效）</string>
+<string name="buffer_min_title">最小缓冲（秒）</string>
+<string name="buffer_min_summary">播放时维持的最小缓冲量，低于此值开始重新缓冲（20–570）</string>
+<string name="buffer_max_title">最大缓冲（秒）</string>
+<string name="buffer_max_summary">缓冲到此值后停止（必须 ≥ 最小缓冲 + 30，最大600）</string>
+<string name="buffer_range_error">超出范围（%1$d–%2$d）</string>
+<string name="buffer_min_plus_30_error">最小缓冲太大 — 最大缓冲至少需要 %1$d</string>
+<string name="buffer_max_min_plus_30_error">最大缓冲太小 — 必须至少 %1$d（最小缓冲 + 30）</string>
+<string name="buffer_invalid_number">请输入有效数字</string>
+<string name="seconds">秒</string>
 <string name="auto_queue_title">自动将下一个串流加入队列</string>
 <string name="auto_queue_summary">通过添加相关串流继续播放（非循环）队列</string>
 <string name="auto_queue_toggle">自动加入队列</string>
@@ -302,14 +313,14 @@
 <string name="charset_most_special_characters">特殊字符</string>
 <string name="toast_no_player">未安装播放此文件的应用</string>
 <!-- About -->
-<string name="title_activity_about_new">关于 PipePipe</string>
+<string name="title_activity_about_new">关于 PipePlay</string>
 <string name="title_licenses">第三方许可证</string>
 <string name="copyright">© %1$s 作者 %2$s 使用 %3$s</string>
 <string name="tab_about">关于</string>
-<string name="app_description_new">一个自由浏览 YouTube、NicoNico 和 BiliBili 的 FLOSS Android 应用程序</string>
-<string name="contribution_title">贡献</string>
-<string name="contribution_encouragement">您是否有想法；翻译、更改设计、代码清理或繁重的代码更改——我们随时欢迎您提供帮助。做得越多越好！</string>
-<string name="app_license_title_new">NewPipe 的许可证（上游）</string>
+<string name="app_description_new">PipePipe 的定制分支，支持可配置缓冲区间、视频缓存上限调节，以及更流畅的手机端播放体验</string>
+<string name="contribution_title">参与贡献</string>
+<string name="contribution_encouragement">PipePlay 是基于 PipePipe 和 NewPipe 的开源项目。欢迎提交想法、Bug 报告、代码改进和翻译！</string>
+<string name="donation_title">项目</string>
 <string name="app_license">NewPipe 是版权自由软件：您可以随时使用、研究共享和改进。您可以根据自由软件基金会发布的 GNU 通用公共许可证 GPLv3 或（由您选择）任何更高版本的许可证重新分发或修改该软件。</string>
 <string name="read_full_license">阅读许可证</string>
 <!-- History -->
@@ -765,8 +776,7 @@
 <string name="settings_category_sponsor_block_category_preview_summary">快速回顾以前的剧集，或者当前视频中即将发生的预告。适用于编辑的剪辑，不适用于口头总结。</string>
 <string name="settings_category_sponsor_block_category_filler_summary">这是为了填充或幽默而添加的与主要内容理解无关的旁支场景。</string>
 <string name="invalid_color_toast">无效颜色</string>
-<string name="donation_title">捐赠</string>
-<string name="import_soundcloud_instructions">通过输入URL或您的ID导入SoundCloud个人资料：\n\n1. 在网页浏览器中启用“桌面模式”（该站点不支持移动设备）\n2. 转到此URL：%1$s\n3. 被要求时登录\n4. 复制您被重定向到的个人资料URL。</string>
+<string name="import_soundcloud_instructions">通过输入URL或您的ID导入SoundCloud个人资料：\n\n1. 在网页浏览器中启用"桌面模式"（该站点不支持移动设备）\n2. 转到此URL：%1$s\n3. 被要求时登录\n4. 复制您被重定向到的个人资料URL。</string>
 <string name="sponsor_block">SponsorBlock</string>
 <string name="sponsor_block_home_page_title">查看网站</string>
 <string name="sponsor_block_home_page_summary">查看官方SponsorBlock网站。</string>
@@ -1021,4 +1031,9 @@
 <string name="media_codec_workaround_hint_title">MediaCodec 播放失败</string>
 <string name="media_codec_async_workaround_hint">此故障可能是由 MediaCodec 异步队列引起的。请尝试在 ExoPlayer 设置中启用 \"禁用 MediaCodec 异步队列\"，然后重新启动播放。</string>
 <string name="media_codec_surface_workaround_hint">此故障发生在更改视频输出 Surface 时。请尝试在 ExoPlayer 设置中启用 \"始终使用 ExoPlayer 的视频输出 Surface 设置变通方案\"，然后重新启动播放。</string>
+
+    <!-- PipePlay: 订阅显示模式 -->
+    <string name="subscription_display_mode_title">订阅显示</string>
+    <string name="subscription_display_mode_channel_groups">显示频道组</string>
+    <string name="subscription_display_mode_feed_content">显示订阅内容</string>
 </resources>

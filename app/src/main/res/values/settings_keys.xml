@@ -1732,5 +1732,44 @@
     <string name="force_end_on_overtime_key">force_end_on_overtime</string>
     <string name="use_old_search_filter_key">use_old_search_filter</string>
     <string name="main_tabs_position_key">main_tabs_position</string>
+
+    <!-- PipePlay: Subscription display mode -->
+    <string name="subscription_display_mode_key">subscription_display_mode</string>
+    <string-array name="subscription_display_mode_values">
+        <item>channel_groups</item>
+        <item>feed_content</item>
+    </string-array>
+    <string-array name="subscription_display_mode_entries">
+        <item>@string/subscription_display_mode_channel_groups</item>
+        <item>@string/subscription_display_mode_feed_content</item>
+    </string-array>
     <string name="disable_exoplayer_media_codec_async_queueing_key">disable_exoplayer_media_codec_async_queueing_key</string>
+
+    <!-- Player cache size -->
+    <string name="player_cache_size_key">player_cache_size</string>
+    <string name="player_cache_size_default_value">268435456</string>
+
+    <!-- Buffer range -->
+    <string name="buffer_min_key">buffer_min_seconds</string>
+    <string name="buffer_min_default_value">20</string>
+    <string name="buffer_max_key">buffer_max_seconds</string>
+    <string name="buffer_max_default_value">50</string>
+    <string-array name="player_cache_size_entries">
+        <item>256 MB</item>
+        <item>512 MB</item>
+        <item>1 GB</item>
+        <item>3 GB</item>
+        <item>5 GB</item>
+        <item>8 GB</item>
+        <item>10 GB</item>
+    </string-array>
+    <string-array name="player_cache_size_entry_values">
+        <item>268435456</item>
+        <item>536870912</item>
+        <item>1073741824</item>
+        <item>3221225472</item>
+        <item>5368709120</item>
+        <item>8589934592</item>
+        <item>10737418240</item>
+    </string-array>
 </resources>

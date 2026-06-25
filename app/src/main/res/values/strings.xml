@@ -87,6 +87,17 @@
 <string name="metadata_cache_wipe_title">Wipe cached metadata</string>
 <string name="metadata_cache_wipe_summary">Remove all cached webpage data</string>
 <string name="metadata_cache_wipe_complete_notice">Metadata cache wiped</string>
+<string name="player_cache_size_title">Video cache size</string>
+<string name="player_cache_size_summary">Maximum disk space for cached video content (requires app restart)</string>
+<string name="buffer_min_title">Min buffer (seconds)</string>
+<string name="buffer_min_summary">Minimum buffer to keep before refilling (20–570)</string>
+<string name="buffer_max_title">Max buffer (seconds)</string>
+<string name="buffer_max_summary">Buffer up to this amount then stop (must be ≥ min + 30, max 600)</string>
+<string name="buffer_range_error">out of range (%1$d–%2$d)</string>
+<string name="buffer_min_plus_30_error">Min buffer too high — max buffer must be at least %1$d</string>
+<string name="buffer_max_min_plus_30_error">Max buffer too low — must be at least %1$d (min + 30)</string>
+<string name="buffer_invalid_number">Please enter a valid number</string>
+<string name="seconds">s</string>
 <string name="auto_queue_title">Auto-enqueue next stream</string>
 <string name="auto_queue_summary">Continue ending (non-repeating) playback queue by appending a related stream</string>
 <string name="auto_queue_toggle">Auto-enqueuing</string>
@@ -330,14 +341,14 @@
 <string name="charset_most_special_characters">Most special characters</string>
 <string name="toast_no_player">No app installed to play this file</string>
 <!-- About -->
-<string name="title_activity_about_new">About PipePipe</string>
+<string name="title_activity_about_new">About PipePlay</string>
 <string name="title_licenses">Third-party Licenses</string>
 <string name="copyright">© %1$s by %2$s under %3$s</string>
 <string name="tab_about">About</string>
-<string name="app_description_new">A FLOSS Android app to let you browse YouTube, NicoNico and BiliBili freely </string>
+<string name="app_description_new">A fork of PipePipe with enhanced playback controls, configurable buffering, and customizable video cache — built for a smoother streaming experience on mobile</string>
 <string name="contribution_title">Contribute</string>
-<string name="contribution_encouragement">Whether you have ideas of; translation, design changes, code cleaning, or real heavy code changes—help is always welcome. The more is done the better it gets!</string>
-<string name="donation_title">Donate</string>
+<string name="contribution_encouragement">PipePlay is an open-source project built on the shoulders of PipePipe and NewPipe. Ideas, bug reports, code contributions, and translations are always welcome!</string>
+<string name="donation_title">Project</string>
 <string name="app_license_title_new">NewPipe\'s License (Upstream)</string>
 <string name="app_license">NewPipe is copyleft libre software: You can use, study, share, and improve it at will. Specifically you can redistribute and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</string>
 <string name="read_full_license">Read license</string>
@@ -1061,4 +1072,9 @@
 <string name="media_codec_workaround_hint_title">MediaCodec playback failed</string>
 <string name="media_codec_async_workaround_hint">This failure may be caused by MediaCodec asynchronous queueing. Try enabling \"Disable MediaCodec asynchronous queueing\" in ExoPlayer settings, then restart playback.</string>
 <string name="media_codec_surface_workaround_hint">This failure happened while changing the video output surface. Try enabling \"Always use ExoPlayer\'s video output surface setting workaround\" in ExoPlayer settings, then restart playback.</string>
+
+    <!-- PipePlay: Subscription display mode -->
+    <string name="subscription_display_mode_title">Subscription display</string>
+    <string name="subscription_display_mode_channel_groups">Show channel groups</string>
+    <string name="subscription_display_mode_feed_content">Show subscription content</string>
 </resources>

@@ -372,7 +372,8 @@ public class MainActivity extends AppCompatActivity {
     private void tabSelected(final MenuItem item) throws ExtractionException {
         switch (item.getItemId()) {
             case ITEM_ID_SUBSCRIPTIONS:
-                NavigationHelper.openSubscriptionFragment(getSupportFragmentManager());
+                NavigationHelper.openFeedOrSubscriptionFragment(
+                        getSupportFragmentManager(), this);
                 break;
             case ITEM_ID_FEED:
                 NavigationHelper.openFeedFragment(getSupportFragmentManager());

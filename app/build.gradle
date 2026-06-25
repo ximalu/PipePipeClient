@@ -16,8 +16,8 @@ android {
         minSdk 23
         //noinspection ExpiredTargetSdkVersion
         targetSdk 36
-        versionCode 1100
-        versionName "5.2.0-beta3"
+        versionCode 1
+        versionName "1.0-beta1"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -48,19 +48,19 @@ android {
             if (true) {
                 // default values when branch name could not be determined or is master or dev
                 applicationIdSuffix ".debug"
-                resValue "string", "app_name", "PipePipe Debug"
+                resValue "string", "app_name", "PipePlay Debug"
             } else {
                 applicationIdSuffix ".debug." + normalizedWorkingBranch
-                resValue "string", "app_name", "PipePipe " + workingBranch
+                resValue "string", "app_name", "PipePlay " + workingBranch
             }
         }
 
         release {
             if (System.properties.containsKey('packageSuffix')) {
                 applicationIdSuffix System.getProperty('packageSuffix')
-                resValue "string", "app_name", "PipePipe " + System.getProperty('packageSuffix')
+                resValue "string", "app_name", "PipePlay " + System.getProperty('packageSuffix')
             } else {
-                resValue "string", "app_name", "PipePipe"
+                resValue "string", "app_name", "PipePlay"
             }
             minifyEnabled true
             shrinkResources false // disabled to fix F-Droid's reproducible build
@@ -83,8 +83,8 @@ android {
         // Flag to enable support for the new language APIs
         coreLibraryDesugaringEnabled true
 
-        sourceCompatibility JavaVersion.VERSION_25
-        targetCompatibility JavaVersion.VERSION_25
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
         encoding 'utf-8'
     }
 
@@ -113,7 +113,7 @@ android {
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions {
-        jvmTarget = '25'
+        jvmTarget = '21'
     }
 }
 
@@ -130,7 +130,7 @@ androidComponents.onVariants(androidComponents.selector().all()) { variant ->
             versionCode = (100 * defaultVersionCode) + abiCodes[abi]
         }
         output.versionCode.set(versionCode)
-        output.outputFileName.set("PipePipe_${defaultVersionName}-${abi ?: 'universal'}-${variant.name}.apk")
+        output.outputFileName.set("PipePlay_${defaultVersionName}-${abi ?: 'universal'}-${variant.name}.apk")
     }
 }
 

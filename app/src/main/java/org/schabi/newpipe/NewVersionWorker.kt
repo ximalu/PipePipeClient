@@ -193,7 +193,7 @@ class NewVersionWorker(
         private val DEBUG = MainActivity.DEBUG
         private val TAG = NewVersionWorker::class.java.simpleName
         private val RELEASE_APK_ABIS = listOf("armeabi-v7a", "arm64-v8a", "x86_64", "x86")
-        private const val NEWPIPE_API_URL = "https://api.github.com/repositories/490984887/releases"
+        private const val NEWPIPE_API_URL = "https://api.github.com/repositories/1278768477/releases"
         private const val IS_MANUAL = "isManual"
 
         private fun getReleaseApkAbi(name: String): String? {
@@ -238,7 +238,11 @@ private fun parseVersion(versionStr: String): Version {
         it.toIntOrNull() ?: throw IllegalArgumentException("Invalid version part: $it")
     }
 
-    val (major, minor, patch) = mainParts
+    val (major, minor, patch) = when (mainParts.size) {
+        2 -> Triple(mainParts[0], mainParts[1], 0)
+        3 -> Triple(mainParts[0], mainParts[1], mainParts[2])
+        else -> throw IllegalArgumentException("Version must have at least 2 parts: $versionStr")
+    }
 
     // beta版本号处理
     val betaVersion = when {

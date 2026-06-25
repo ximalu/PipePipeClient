@@ -76,7 +76,7 @@ class AboutActivity : AppCompatActivity() {
             FragmentAboutBinding.inflate(inflater, container, false).apply {
                 aboutAppVersion.text = BuildConfig.VERSION_NAME
                 aboutGithubLink.openLink(R.string.github_url)
-                aboutDonationLink.openLink(R.string.donation_url)
+                aboutProjectLink.openLink(R.string.github_url)
                 return root
             }
         }
