@@ -83,6 +83,14 @@ public class VideoAudioSettingsFragment extends BasePreferenceFragment {
                     getString(R.string.buffer_max_default_value)));
             if (value + 30 > currentMax) {
                 final int newMax = Math.min(value + 30, 600);
+                // If even after clamping to 600 the gap is still < 30, reject
+                if (newMax - value < 30) {
+                    showBufferValidationError(
+                            getString(R.string.buffer_min_title) + ": "
+                                    + value + " " + getString(R.string.buffer_range_error,
+                                    20, 570));
+                    return false;
+                }
                 bufferMaxPref.setText(String.valueOf(newMax));
                 defaultPreferences.edit()
                         .putString(getString(R.string.buffer_max_key), String.valueOf(newMax))
@@ -118,7 +126,7 @@ public class VideoAudioSettingsFragment extends BasePreferenceFragment {
             if (value < currentMin + 30) {
                 final int newMin = Math.max(value - 30, 20);
                 // If even at min=20 the gap is still < 30, reject
-                if (value < 20 + 30) {
+                if (value - newMin < 30) {
                     showBufferValidationError(
                             getString(R.string.buffer_max_title) + ": "
                                     + value + " " + getString(R.string.buffer_range_error,
